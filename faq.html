@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - 🩺 HackNova Healthcare Helpdesk</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-blue: #007bff;
+            --light-gray: #f8f9fa;
+            --dark-gray: #212529;
+            --chat-bg: #f1f3f4;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-gray);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-blue), #0056b3);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+
+        .navbar-nav .nav-link {
+            color: white !important;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #e3f2fd !important;
+        }
+
+        .navbar-nav .nav-link.active {
+            color: #ffd700 !important;
+            font-weight: 600;
+        }
+
+        /* Header Styles */
+        .header-section {
+            background: linear-gradient(135deg, #74b9ff 0%, #ffffff 100%);
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .main-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--dark-gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #6c757d;
+            font-weight: 300;
+        }
+
+        /* Card Styles */
+        .feature-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--primary-blue), #0056b3);
+            color: white;
+            border-radius: 15px 15px 0 0 !important;
+            padding: 1.5rem;
+            border: none;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        /* FAQ Styles */
+        .faq-item {
+            border: none;
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .faq-item:hover {
+            background: #e3f2fd;
+            transform: translateX(5px);
+        }
+
+        .faq-link {
+            color: var(--dark-gray);
+            text-decoration: none;
+            padding: 1rem;
+            display: block;
+            border-radius: 10px;
+        }
+
+        .faq-link:hover {
+            color: var(--primary-blue);
+            text-decoration: none;
+        }
+
+        /* Chat Styles */
+        .chat-container {
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            background: var(--chat-bg);
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .message {
+            margin-bottom: 1rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message-bubble {
+            max-width: 80%;
+            padding: 0.75rem 1rem;
+            border-radius: 18px;
+            position: relative;
+            word-wrap: break-word;
+        }
+
+        .user-message {
+            background: var(--primary-blue);
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+
+        .bot-message {
+            background: white;
+            color: var(--dark-gray);
+            border: 1px solid #e0e0e0;
+            border-bottom-left-radius: 5px;
+        }
+
+        .message-time {
+            font-size: 0.7rem;
+            color: #6c757d;
+            margin-top: 0.25rem;
+            text-align: right;
+        }
+
+        .bot-message .message-time {
+            text-align: left;
+        }
+
+        .chat-input {
+            border-radius: 25px;
+            border: 2px solid #e0e0e0;
+            padding: 0.75rem 1.25rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .chat-input:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+
+        .send-btn {
+            border-radius: 25px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .send-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+        }
+
+        .clear-btn {
+            background: #dc3545;
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .clear-btn:hover {
+            background: #c82333;
+            transform: translateY(-1px);
+        }
+
+        /* Footer */
+        .footer {
+            background: white;
+            border-top: 1px solid #e0e0e0;
+            padding: 1.5rem 0;
+            margin-top: auto;
+            text-align: center;
+            color: #6c757d;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .header-section {
+                padding: 2rem 0;
+            }
+            
+            .chat-container {
+                height: 400px;
+            }
+            
+            .message-bubble {
+                max-width: 90%;
+            }
+        }
+
+        /* Scrollbar Styling */
+        .chat-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .chat-messages::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 3px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+
+        /* PDF Upload Styles */
+        .upload-zone {
+            border: 2px dashed #dee2e6;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: #f8f9fa;
+        }
+
+        .upload-zone:hover {
+            border-color: var(--primary-blue);
+            background: #e3f2fd;
+        }
+
+        .upload-zone.dragover {
+            border-color: var(--primary-blue);
+            background: #e3f2fd;
+            transform: scale(1.02);
+        }
+
+        .upload-content {
+            pointer-events: none;
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .upload-text {
+            font-size: 1.1rem;
+            color: #6c757d;
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-link {
+            color: var(--primary-blue);
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .upload-link:hover {
+            color: #0056b3;
+        }
+
+        /* Results Styles */
+        .alert-light {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            color: #495057;
+        }
+
+        .alert-danger h6 {
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        /* Structured Data Styles */
+        pre {
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        /* Button States */
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Spinner Animation */
+        .spinner-border-sm {
+            width: 1rem;
+            height: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">🩺 Kadhali HealthCare</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="faq.html">FAQ</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="header-section">
+        <div class="container">
+            <div class="row justify-content-center text-center">
+                <div class="col-lg-8">
+                    <h1 class="main-title">🩺Kadhali MedAssist</h1>
+                    <p class="subtitle">Reliable Medical Answers in a Snap!</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mb-4">
+        <div class="row g-4">
+            <!-- FAQ Section -->
+            <div class="col-lg-6">
+                <div class="card feature-card">
+                    <div class="card-header">
+                        <h2 class="card-title">📌 Frequently Asked Questions</h2>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="list-group list-group-flush">
+                            <div class="faq-item">
+                                <a href="https://www.who.int/emergencies/diseases/novel-coronavirus-2019/question-and-answers-hub" 
+                                   class="faq-link" target="_blank">
+                                    <strong>COVID-19 Symptoms & Prevention</strong><br>
+                                    <small class="text-muted">WHO Guidelines</small>
+                                </a>
+                            </div>
+                            <div class="faq-item">
+                                <a href="https://www.cdc.gov/coronavirus/2019-ncov/vaccines/index.html" 
+                                   class="faq-link" target="_blank">
+                                    <strong>Vaccine Information & Safety</strong><br>
+                                    <small class="text-muted">CDC Resources</small>
+                                </a>
+                            </div>
+                            <div class="faq-item">
+                                <a href="https://www.mayoclinic.org/symptoms/fever/basics/definition/sym-20050927" 
+                                   class="faq-link" target="_blank">
+                                    <strong>Fever Treatment & Management</strong><br>
+                                    <small class="text-muted">Mayo Clinic</small>
+                                </a>
+                            </div>
+                            <div class="faq-item">
+                                <a href="https://www.mayoclinic.org/symptoms/headache/basics/causes/sym-20050800" 
+                                   class="faq-link" target="_blank">
+                                    <strong>Headache Causes & Relief</strong><br>
+                                    <small class="text-muted">Mayo Clinic</small>
+                                </a>
+                            </div>
+                            <div class="faq-item">
+                                <a href="https://www.mayoclinic.org/diseases-conditions/diabetes/in-depth/diabetes-management/art-20047963" 
+                                   class="faq-link" target="_blank">
+                                    <strong>Diabetes Care & Management</strong><br>
+                                    <small class="text-muted">Mayo Clinic</small>
+                                </a>
+                            </div>
+                            <div class="faq-item">
+                                <a href="https://www.who.int/news-room/fact-sheets/detail/mental-health-strengthening-our-response" 
+                                   class="faq-link" target="_blank">
+                                    <strong>Mental Health Support</strong><br>
+                                    <small class="text-muted">WHO Resources</small>
+                                </a>
+                            </div>
+                            <div class="faq-item">
+                                <a href="https://www.cdc.gov/nutrition/index.html" 
+                                   class="faq-link" target="_blank">
+                                    <strong>Nutrition & Healthy Eating</strong><br>
+                                    <small class="text-muted">CDC Guidelines</small>
+                                </a>
+                            </div>
+                            <div class="faq-item">
+                                <a href="https://www.mayoclinic.org/healthy-lifestyle/fitness/in-depth/exercise/art-20048389" 
+                                   class="faq-link" target="_blank">
+                                    <strong>Exercise & Physical Activity</strong><br>
+                                    <small class="text-muted">Mayo Clinic</small>
+                                </a>
+                            </div>
+                            <div class="faq-item">
+                                <a href="https://www.who.int/news-room/fact-sheets/detail/immunization-coverage" 
+                                   class="faq-link" target="_blank">
+                                    <strong>Immunization Schedule</strong><br>
+                                    <small class="text-muted">WHO Guidelines</small>
+                                </a>
+                            </div>
+                            <div class="faq-item">
+                                <a href="https://www.cdc.gov/sleep/about_sleep/how_much_sleep.html" 
+                                   class="faq-link" target="_blank">
+                                    <strong>Sleep Health & Hygiene</strong><br>
+                                    <small class="text-muted">CDC Recommendations</small>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PDF Analysis Section -->
+            <div class="col-lg-6">
+                <div class="card feature-card">
+                    <div class="card-header">
+                        <h2 class="card-title">📄 Upload & Analyze Report</h2>
+                    </div>
+                    <div class="card-body">
+                        <!-- Consent Checkbox -->
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="consentCheckbox" required>
+                                <label class="form-check-label" for="consentCheckbox">
+                                    I consent to processing my medical data for analysis
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Upload Area -->
+                        <div id="pdfDropZone" class="upload-zone mb-3">
+                            <div class="upload-content">
+                                <i class="upload-icon">📁</i>
+                                <p class="upload-text">Drag & drop your PDF here or <span class="upload-link">click to browse</span></p>
+                                <small class="text-muted">Maximum file size: 10MB</small>
+                            </div>
+                            <input type="file" id="pdfFileInput" accept=".pdf" style="display: none;">
+                        </div>
+
+                        <!-- Progress Bar -->
+                        <div id="uploadProgress" class="progress mb-3" style="display: none;">
+                            <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+                        </div>
+
+                        <!-- Job Status -->
+                        <div id="jobStatus" class="alert alert-info" style="display: none;">
+                            <div class="d-flex align-items-center">
+                                <div class="spinner-border spinner-border-sm me-2" role="status"></div>
+                                <span id="statusText">Processing...</span>
+                            </div>
+                        </div>
+
+                        <!-- Model Selection -->
+                        <div id="modelSelection" class="mb-3" style="display: none;">
+                            <label class="form-label">Choose Analysis Model:</label>
+                            <div class="btn-group w-100" role="group">
+                                <button type="button" class="btn btn-outline-primary" id="openaiBtn">
+                                    🤖 OpenAI GPT-4
+                                </button>
+                                <button type="button" class="btn btn-outline-primary" id="llamaBtn">
+                                    🦙 Llama 3 (Local)
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Results Area -->
+                        <div id="resultsArea" style="display: none;">
+                            <!-- Patient Summary -->
+                            <div class="mb-3">
+                                <h5>📋 Patient Summary</h5>
+                                <div id="patientSummary" class="alert alert-light"></div>
+                            </div>
+
+                            <!-- Urgent Alerts -->
+                            <div id="urgentAlerts" class="mb-3" style="display: none;">
+                                <div class="alert alert-danger">
+                                    <h6>🚨 URGENT — Seek Immediate Care</h6>
+                                    <div id="urgentItems"></div>
+                                </div>
+                            </div>
+
+                            <!-- Structured Data Toggle -->
+                            <div class="mb-3">
+                                <button class="btn btn-outline-secondary btn-sm" id="toggleStructuredData">
+                                    📊 View Structured Data
+                                </button>
+                            </div>
+
+                            <!-- Structured JSON (Hidden by default) -->
+                            <div id="structuredJSON" class="mb-3" style="display: none;">
+                                <h6>Structured Analysis Results:</h6>
+                                <pre class="bg-light p-3 rounded" style="max-height: 300px; overflow-y: auto;"></pre>
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-success" id="downloadReportBtn">
+                                    📄 Download Report (PDF)
+                                </button>
+                                <button class="btn btn-outline-primary" id="askFollowupBtn">
+                                    ❓ Ask Follow-up Question
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chatbot Section -->
+            <div class="col-lg-6">
+                <div class="card feature-card">
+                    <div class="card-header">
+                        <h2 class="card-title">💬 Medibot</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="chat-container">
+                            <div class="chat-messages" id="chatMessages">
+                                <div class="message">
+                                    <div class="message-bubble bot-message">
+                                        👋 Welcome to Kadhali MedAssist! Ask me about COVID, vaccines, symptoms, or general health.
+                                        <div class="message-time" id="welcomeTime"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex gap-2 mb-3">
+                                <input type="text" class="form-control chat-input flex-grow-1" 
+                                       id="userInput" placeholder="Ask a health question..." 
+                                       onkeypress="handleKeyPress(event)">
+                                <button class="btn btn-primary send-btn" onclick="sendMessage()">
+                                    Send
+                                </button>
+                            </div>
+                            
+                            <div class="text-center">
+                                <button class="clear-btn" onclick="clearChat()">
+                                    🗑️ Clear Chat
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="mb-0">Made with ❤ by Team Kadhaliparambil | CCE Iringalakuda</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        // FAQ Database
+        const faqDB = {
+            "covid symptoms": "COVID-19 symptoms include fever, dry cough, tiredness, and difficulty breathing. For severe symptoms, seek medical attention immediately. WHO: https://www.who.int/",
+            "cold": "Cold symptoms include nasal congestion, sore throat, and cough. Rest, hydration, and over-the-counter medications can help. CDC: https://www.cdc.gov/",
+            "diarrhoea": "Diarrhoea is a condition that causes frequent and loose bowel movements. It can be caused by a variety of factors, including infection, food poisoning, and certain medications. CDC: https://www.cdc.gov/",
+            'feeling hot': "Feeling hot is a common symptom of heat exhaustion. It can be caused by a variety of factors, including infection, food poisoning, and certain medications. CDC: https://www.cdc.gov/",
+            'feeling tired': "Feeling tired is a common symptom of fatigue. It can be caused by a variety of factors, including infection, food poisoning, and certain medications. CDC: https://www.cdc.gov/",
+            'feeling nauseous': "Feeling nauseous is a common symptom of nausea. It can be caused by a variety of factors, including infection, food poisoning, and certain medications. CDC: https://www.cdc.gov/",
+            'feeling dizzy': "Feeling dizzy is a common symptom of dizziness. It can be caused by a variety of factors, including infection, food poisoning, and certain medications. CDC: https://www.cdc.gov/",
+            'feeling headache': "Feeling headache is a common symptom of headache. It can be caused by a variety of factors, including infection, food poisoning, and certain medications. CDC: https://www.cdc.gov/",
+            'feeling pain': "Feeling pain is a common symptom of pain. It can be caused by a variety of factors, including infection, food poisoning, and certain medications. CDC: https://www.cdc.gov/",
+            'feeling chest pain': "Feeling chest pain is a common symptom of chest pain. It can be caused by a variety of factors, including infection, food poisoning, and certain medications. CDC: https://www.cdc.gov/",
+            'feeling shortness of breath': "Feeling shortness of breath is a common symptom of shortness of breath. It can be caused by a variety of factors, including infection, food poisoning, and certain medications. CDC: https://www.cdc.gov/",
+            'feeling cough': "Feeling cough is a common symptom of cough. It can be caused by a variety of factors, including infection, food poisoning, and certain medications. CDC: https://www.cdc.gov/",
+            'feeling fever': "Feeling fever is a common symptom of fever. It can be caused by a variety of factors, including infection, food poisoning, and certain medications. CDC: https://www.cdc.gov/",
+            'feeling headache': "Feeling headache is a common symptom of headache. It can be caused by a variety of factors, including infection, food poisoning, and certain medications. CDC: https://www.cdc.gov/",
+            'feeling pain': "Feeling pain is a common symptom of pain. It can be caused by a variety of factors, including infection, food poisoning, and certain medications. CDC: https://www.cdc.gov/",
+            'feeling chest pain': "Feeling chest pain is a common symptom of chest pain. It can be caused by a variety of factors, including infection, food poisoning, and certain medications. CDC: https://www.cdc.gov/",
+            'feeling shortness of breath': "Feeling shortness of breath is a common symptom of shortness of breath. It can be caused by a variety of factors, including infection, food poisoning, and certain medications. CDC: https://www.cdc.gov/",
+            'feeling cough': "Feeling cough is a common symptom of cough. It can be caused by a variety of factors, including infection, food poisoning, and certain medications. CDC: https://www.cdc.gov/",
+            'feeling fever': "Feeling fever is a common symptom of fever. It can be caused by a variety of factors, including infection, food poisoning, and certain medications. CDC: https://www.cdc.gov/",
+            'feeling headache': "Feeling headache is a common symptom of headache. It can be caused by a variety of factors, including infection, food poisoning, and certain medications. CDC: https://www.cdc.gov/",
+            'feeling pain': "Feeling pain is a common symptom of pain. It can be caused by a variety of factors, including infection, food poisoning, and certain medications. CDC: https://www.cdc.gov/",
+            "pneumonia": "Pneumonia is an infection of the lungs. Symptoms include fever, cough, and shortness of breath. Seek medical attention if symptoms are severe. CDC: https://www.cdc.gov/",
+            "covid": "COVID-19 is a respiratory illness. Common symptoms are fever, cough, and fatigue. Practice social distancing, wear masks, and get vaccinated. WHO: https://www.who.int/",
+            "fever treatment": "For fever: rest, stay hydrated, use paracetamol/acetaminophen, and monitor temperature. If fever persists or is very high, consult a doctor. CDC: https://www.cdc.gov/",
+            "fever": "Fever is a body temperature above 100.4°F (38°C). Rest, hydration, and fever-reducing medication can help. Seek medical care if fever is very high or persistent.",
+            "vaccine side effects": "Common vaccine side effects include mild fever, fatigue, arm pain, and headache. These usually resolve within 1-2 days. Severe reactions are rare. WHO: https://www.who.int/",
+            "vaccine": "Vaccines are safe and effective. Common side effects are mild and temporary. Vaccination helps protect you and others from serious diseases.",
+            "headache causes": "Headache causes include stress, dehydration, lack of sleep, eye strain, and certain foods. Stay hydrated, get adequate sleep, and manage stress. Mayo Clinic: https://www.mayoclinic.org/",
+            "headache": "Headaches can be caused by stress, dehydration, or lack of sleep. Try rest, hydration, and over-the-counter pain relief. See a doctor for severe or frequent headaches.",
+            "diabetes care": "Diabetes management includes healthy diet, regular exercise, blood sugar monitoring, and medication adherence. Work with your healthcare team for personalized care. Mayo Clinic: https://www.mayoclinic.org/",
+            "diabetes": "Diabetes requires careful management through diet, exercise, medication, and regular monitoring. Consult your doctor for a personalized treatment plan.",
+            "mental health": "Mental health is important for overall wellbeing. Practice self-care, maintain social connections, and seek professional help when needed. WHO: https://www.who.int/",
+            "anxiety": "Anxiety is common and treatable. Practice deep breathing, mindfulness, regular exercise, and adequate sleep. Seek professional help for persistent anxiety.",
+            "depression": "Depression is a serious but treatable condition. Symptoms include persistent sadness, loss of interest, and fatigue. Professional help and support are important.",
+            "nutrition": "Good nutrition includes fruits, vegetables, whole grains, lean proteins, and healthy fats. Limit processed foods, sugar, and sodium. CDC: https://www.cdc.gov/",
+            "exercise": "Regular exercise improves physical and mental health. Aim for 150 minutes of moderate activity weekly. Start slowly and gradually increase intensity.",
+            "sleep": "Good sleep hygiene includes consistent bedtime, dark room, comfortable temperature, and avoiding screens before bed. Adults need 7-9 hours nightly.",
+            "immunization": "Vaccines protect against serious diseases. Follow recommended vaccination schedules for children and adults. Keep vaccination records updated.",
+            "hypertension": "High blood pressure can be managed through diet (low sodium), exercise, weight management, and medication if prescribed by your doctor.",
+            "heart health": "Heart health includes regular exercise, healthy diet, not smoking, managing stress, and regular check-ups with your doctor.",
+            "cancer screening": "Regular cancer screenings can detect cancer early when treatment is most effective. Follow your doctor's recommendations for age-appropriate screenings."
+        };
+
+        // Initialize welcome message timestamp
+        document.addEventListener('DOMContentLoaded', function() {
+            const welcomeTime = document.getElementById('welcomeTime');
+            welcomeTime.textContent = getCurrentTime();
+        });
+
+        // Get current time
+        function getCurrentTime() {
+            const now = new Date();
+            return now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        }
+
+        // Handle Enter key press
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        // Send message function
+        function sendMessage() {
+            const userInput = document.getElementById('userInput');
+            const message = userInput.value.trim();
+            
+            if (message === '') return;
+            
+            // Add user message
+            addMessage(message, 'user');
+            
+            // Clear input
+            userInput.value = '';
+            
+            // Get bot response
+            const response = getBotResponse(message);
+            
+            // Add bot response with slight delay for better UX
+            setTimeout(() => {
+                addMessage(response, 'bot');
+            }, 500);
+        }
+
+        // Add message to chat
+        function addMessage(text, sender) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message';
+            
+            const bubbleDiv = document.createElement('div');
+            bubbleDiv.className = `message-bubble ${sender}-message`;
+            bubbleDiv.innerHTML = text + `<div class="message-time">${getCurrentTime()}</div>`;
+            
+            messageDiv.appendChild(bubbleDiv);
+            chatMessages.appendChild(messageDiv);
+            
+            // Auto scroll to bottom
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Get bot response based on user input
+        function getBotResponse(userMessage) {
+            const lowerMessage = userMessage.toLowerCase();
+            
+            // Check for keyword matches
+            for (const [keyword, response] of Object.entries(faqDB)) {
+                if (lowerMessage.includes(keyword)) {
+                    return response;
+                }
+            }
+            
+            // No match found
+            return "⚠️ Sorry, no direct answer found. Please check WHO (https://www.who.int) or CDC (https://www.cdc.gov) for reliable health information. You can also try rephrasing your question or check our FAQ section above.";
+        }
+
+        // Clear chat function
+        function clearChat() {
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.innerHTML = `
+                <div class="message">
+                    <div class="message-bubble bot-message">
+                        👋 Welcome to HackNova Healthcare Helpdesk! Ask me about COVID, vaccines, symptoms, or general health.
+                        <div class="message-time">${getCurrentTime()}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // PDF Upload and Analysis Functionality
+        let currentJobId = null;
+        let currentAnalysisResult = null;
+
+        // API Configuration
+        const API_BASE_URL = 'http://localhost:3002/api';
+
+        // Initialize PDF upload functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            initializePDFUploader();
+            initializeModelSelection();
+            initializeResultsHandlers();
+            
+            // Add click animation to send button
+            const sendBtn = document.querySelector('.send-btn');
+            sendBtn.addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+            
+            // Add focus effect to input
+            const userInput = document.getElementById('userInput');
+            userInput.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+            });
+            
+            userInput.addEventListener('blur', function() {
+                this.parentElement.style.transform = '';
+            });
+        });
+
+        function initializePDFUploader() {
+            const dropZone = document.getElementById('pdfDropZone');
+            const fileInput = document.getElementById('pdfFileInput');
+            const consentCheckbox = document.getElementById('consentCheckbox');
+
+            // Click to browse
+            dropZone.addEventListener('click', () => {
+                if (consentCheckbox.checked) {
+                    fileInput.click();
+                } else {
+                    alert('Please consent to processing your medical data first.');
+                }
+            });
+
+            // File input change
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files.length > 0) {
+                    handleFileUpload(e.target.files[0]);
+                }
+            });
+
+            // Drag and drop
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropZone.classList.add('dragover');
+            });
+
+            dropZone.addEventListener('dragleave', () => {
+                dropZone.classList.remove('dragover');
+            });
+
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('dragover');
+                
+                if (consentCheckbox.checked) {
+                    const files = e.dataTransfer.files;
+                    if (files.length > 0 && files[0].type === 'application/pdf') {
+                        handleFileUpload(files[0]);
+                    } else {
+                        alert('Please select a valid PDF file.');
+                    }
+                } else {
+                    alert('Please consent to processing your medical data first.');
+                }
+            });
+        }
+
+        function initializeModelSelection() {
+            const openaiBtn = document.getElementById('openaiBtn');
+            const llamaBtn = document.getElementById('llamaBtn');
+
+            openaiBtn.addEventListener('click', () => startAnalysis('openai'));
+            llamaBtn.addEventListener('click', () => startAnalysis('llama'));
+        }
+
+        function initializeResultsHandlers() {
+            const toggleBtn = document.getElementById('toggleStructuredData');
+            const downloadBtn = document.getElementById('downloadReportBtn');
+            const followupBtn = document.getElementById('askFollowupBtn');
+
+            toggleBtn.addEventListener('click', toggleStructuredData);
+            downloadBtn.addEventListener('click', downloadReport);
+            followupBtn.addEventListener('click', askFollowup);
+        }
+
+        async function handleFileUpload(file) {
+            if (!file || file.type !== 'application/pdf') {
+                alert('Please select a valid PDF file.');
+                return;
+            }
+
+            if (file.size > 10 * 1024 * 1024) { // 10MB
+                alert('File size must be less than 10MB.');
+                return;
+            }
+
+            try {
+                showProgress('Uploading file...', 0);
+                
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('consent', 'true');
+
+                const response = await fetch(`${API_BASE_URL}/upload/pdf`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.message || 'Upload failed');
+                }
+
+                const result = await response.json();
+                currentJobId = result.jobId;
+                
+                showProgress('File uploaded successfully!', 100);
+                setTimeout(() => {
+                    hideProgress();
+                    showModelSelection();
+                }, 1000);
+
+            } catch (error) {
+                console.error('Upload error:', error);
+                alert('Upload failed: ' + error.message);
+                hideProgress();
+            }
+        }
+
+        async function startAnalysis(model) {
+            if (!currentJobId) {
+                alert('No file uploaded.');
+                return;
+            }
+
+            try {
+                showJobStatus('Starting analysis...');
+                hideModelSelection();
+
+                const response = await fetch(`${API_BASE_URL}/analyze/${currentJobId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        model: model,
+                        options: {
+                            ocr: false,
+                            embeddings: false
+                        }
+                    })
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.message || 'Analysis failed');
+                }
+
+                // Start polling for results
+                pollForResults();
+
+            } catch (error) {
+                console.error('Analysis error:', error);
+                alert('Analysis failed: ' + error.message);
+                hideJobStatus();
+            }
+        }
+
+        async function pollForResults() {
+            if (!currentJobId) return;
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/result/${currentJobId}`);
+                
+                if (!response.ok) {
+                    throw new Error('Failed to get results');
+                }
+
+                const result = await response.json();
+                
+                if (result.status === 'completed') {
+                    currentAnalysisResult = result.result;
+                    hideJobStatus();
+                    displayResults(result.result);
+                } else if (result.status === 'failed') {
+                    throw new Error(result.error || 'Analysis failed');
+                } else if (result.status === 'processing') {
+                    showJobStatus('Analyzing document...');
+                    setTimeout(pollForResults, 2000); // Poll every 2 seconds
+                }
+
+            } catch (error) {
+                console.error('Polling error:', error);
+                alert('Failed to get results: ' + error.message);
+                hideJobStatus();
+            }
+        }
+
+        function displayResults(result) {
+            // Show patient summary
+            const summaryDiv = document.getElementById('patientSummary');
+            summaryDiv.innerHTML = result.patient_summary || 'No summary available.';
+
+            // Check for urgent items
+            const urgentItems = result.recommendations?.filter(r => r.urgency === 'urgent') || [];
+            if (urgentItems.length > 0) {
+                showUrgentAlerts(urgentItems);
+            }
+
+            // Show results area
+            document.getElementById('resultsArea').style.display = 'block';
+        }
+
+        function showUrgentAlerts(urgentItems) {
+            const urgentAlerts = document.getElementById('urgentAlerts');
+            const urgentItemsDiv = document.getElementById('urgentItems');
+            
+            urgentItemsDiv.innerHTML = urgentItems.map(item => 
+                `<div class="mb-2">• ${item.text}</div>`
+            ).join('');
+            
+            urgentAlerts.style.display = 'block';
+        }
+
+        function toggleStructuredData() {
+            const structuredDiv = document.getElementById('structuredJSON');
+            const toggleBtn = document.getElementById('toggleStructuredData');
+            
+            if (structuredDiv.style.display === 'none') {
+                structuredDiv.style.display = 'block';
+                structuredDiv.querySelector('pre').textContent = JSON.stringify(currentAnalysisResult, null, 2);
+                toggleBtn.textContent = '📊 Hide Structured Data';
+            } else {
+                structuredDiv.style.display = 'none';
+                toggleBtn.textContent = '📊 View Structured Data';
+            }
+        }
+
+        function downloadReport() {
+            if (!currentJobId) {
+                alert('No report available.');
+                return;
+            }
+
+            const link = document.createElement('a');
+            link.href = `${API_BASE_URL}/result/${currentJobId}/report.pdf`;
+            link.download = `medical-report-${currentJobId}.pdf`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function askFollowup() {
+            const question = prompt('What would you like to know about your medical report?');
+            if (question) {
+                // In a real implementation, this would send the question to the LLM
+                // with the context of the current analysis
+                alert('Follow-up questions feature coming soon! Your question: "' + question + '"');
+            }
+        }
+
+        // UI Helper Functions
+        function showProgress(text, percent) {
+            const progressDiv = document.getElementById('uploadProgress');
+            const progressBar = progressDiv.querySelector('.progress-bar');
+            const statusText = document.getElementById('statusText');
+            
+            statusText.textContent = text;
+            progressBar.style.width = percent + '%';
+            progressDiv.style.display = 'block';
+        }
+
+        function hideProgress() {
+            document.getElementById('uploadProgress').style.display = 'none';
+        }
+
+        function showJobStatus(text) {
+            const statusDiv = document.getElementById('jobStatus');
+            const statusText = document.getElementById('statusText');
+            
+            statusText.textContent = text;
+            statusDiv.style.display = 'block';
+        }
+
+        function hideJobStatus() {
+            document.getElementById('jobStatus').style.display = 'none';
+        }
+
+        function showModelSelection() {
+            document.getElementById('modelSelection').style.display = 'block';
+        }
+
+        function hideModelSelection() {
+            document.getElementById('modelSelection').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
